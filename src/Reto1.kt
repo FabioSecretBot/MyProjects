@@ -1,8 +1,55 @@
 import model.*
 import java.util.*
+import javax.swing.AbstractCellEditor
+import kotlin.collections.ArrayList
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
+//Inventario
+
+//Agua
+var aguas = listOf<Agua>(
+    Agua(100, "Gaseosa"),
+    Agua(200, "Agua Sola")
+)
+//Leche
+var leches = listOf<Leche>(
+    Leche(100, "Leche de Avena"),
+    Leche(200, "Leche Deslactosada")
+)
+//Carne
+var carnes = listOf<Carne>(
+    Carne(100, "Carne de res"),
+    Carne(200, "Carne de pollo")
+)
+//Frutas
+var frutas = listOf<Frutas>(
+    Frutas(100, "Platano"),
+    Frutas(200, "Mango")
+)
+//Verduras
+var verduras = listOf<Verduras>(
+    Verduras(100, "Lechuga"),
+    Verduras(200, "Espinaca")
+)
+//Cereal
+var cereales = listOf<Cereal>(
+    Cereal(100, "Avena"),
+    Cereal(200, "Trigo")
+)
+//Huevos
+var huevos = listOf<Huevos>(
+    Huevos(100, "Huevo de codorniz"),
+    Huevos(200, "Huevo frito")
+)
+//Aceites
+var aceites = listOf<Aceites>(
+    Aceites(100, "Aceite de Oliva"),
+    Aceites(200, "Aceite para freir")
+)
+
 fun main(args: Array<String>) {
+
+    var recetas = arrayListOf<Receta>()
 
     escapar@ while (true) {
 
@@ -22,8 +69,8 @@ fun main(args: Array<String>) {
         var options: Int = readLine()?.toInt() ?: 0
 
         when (options) {
-            1 -> hacerReceta()
-            2 -> verRecetas()
+            1 -> hacerReceta(recetas)
+            2 -> verRecetas(recetas)
             3 -> break@escapar
             else -> println("Debe seleccionar una las opciones")
         }
@@ -32,7 +79,9 @@ fun main(args: Array<String>) {
     println("Saliendo ...")
 }
 
-fun hacerReceta() {
+fun hacerReceta(recetas: ArrayList<Receta>) {
+
+    var nuevaReceta = Receta()
 
     escapar@while (true){
         val mensaje_inicial = """
@@ -56,315 +105,320 @@ fun hacerReceta() {
         var options: Int = readLine()?.toInt() ?: 0
 
         when (options) {
-            1 -> verAgua()
-            2-> verLeche()
-            3-> verCarne()
-            4-> verVerdura()
-            5-> verFruta()
-            6-> verCereal()
-            7-> verHuevos()
-            8-> verAceite()
+            1 -> verAgua(nuevaReceta)
+            2-> verLeche(nuevaReceta)
+            3-> verCarne(nuevaReceta)
+            4-> verVerdura(nuevaReceta)
+            5-> verFruta(nuevaReceta)
+            6-> verCereal(nuevaReceta)
+            7-> verHuevos(nuevaReceta)
+            8-> verAceite(nuevaReceta)
             9 -> break@escapar
             else -> println("Debe seleccionar una las opciones")
         }
     }
+
+    println("Desea guardar la receta creada? (Y/N)")
+
+    var options: String = readLine()?.toString() ?: "N"
+
+    if (options.equals("Y")) {
+        println("Ingrese un nombre para la receta")
+        var nombre: String = readLine()?.toString() ?: ""
+        nuevaReceta.setName(nombre)
+        recetas.add(nuevaReceta)
+    }
 }
 
-fun verRecetas() {
+fun verRecetas(recetas: ArrayList<Receta>) {
+
+    var mensaje: String = ""
+    for ((index : Int, n ) in recetas.withIndex() ) {
+        mensaje += "${index + 1}. ${n.getName()}\n"
+    }
+    mensaje += "${recetas.size + 1}. Regresar"
 
     escapar@while (true) {
         val mensaje_inicial = """
             
-            :: Ver mis recetas ::
+:: Ver mis recetas ::
     
-            1. Regresar
+$mensaje
             
         """.trimIndent()
 
         println(mensaje_inicial)
         var options: Int = readLine()?.toInt() ?: 0
-        if (options == 1) {
+        var limit: Int = recetas.size
+
+        when (options) {
+            in 1 .. limit -> verReceta(recetas[options - 1].getComidas(), recetas[options - 1].getName())
+            limit + 1 -> break@escapar
+            else -> println("Debe seleccionar una de las opciones")
+        }
+    }
+}
+
+fun verReceta(list: List<Any>, nombre: String) {
+
+    var mensaje: String = ""
+    for ((index : Int, n ) in list.withIndex() ) {
+        mensaje += "${index + 1}. ${n.toString()}\n"
+    }
+    mensaje += "${list.size + 1}. Regresar"
+
+    val mensaje_inicial = """
+            
+:: $nombre ::
+    
+Ingredientes:
+$mensaje
+            
+        """.trimIndent()
+
+    escapar@while (true){
+
+        println(mensaje_inicial)
+        var options: Int = readLine()?.toInt() ?: 0
+
+        if (options.equals(list.size + 1)) {
             break@escapar
         }
+
     }
+
 }
 
-fun verAgua() {
-
-    val aguas: Array<Agua> = arrayOf(
-        Agua(100, "Gaseosa"),
-        Agua(200, "Agua Sola")
-    )
+fun hacerMensaje(list: List<Any>): String {
 
     var mensaje: String = ""
-    for ((index : Int, n ) in aguas.withIndex() ) {
+    for ((index : Int, n ) in list.withIndex() ) {
         mensaje += "${index + 1}. ${n.toString()}\n"
     }
-    mensaje += "${aguas.size + 1}. Regresar"
+    mensaje += "${list.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
+    val mensaje_inicial = """
             
-:: Agua ::
+:: ${list[0].javaClass.simpleName} ::
     
 Selecciona entre los ingredientes disponibles
 $mensaje
             
         """.trimIndent()
+    
+    return mensaje_inicial
+}
 
-        println(mensaje_inicial)
+fun realizarAccion(list: List<Any>, receta: Receta) {
+    escapar@while (true){
+
+        println(hacerMensaje(list))
         var options: Int = readLine()?.toInt() ?: 0
+        var limit: Int = list.size
 
         when (options) {
-            1 -> aguas[0].toString()
-            2-> aguas[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
+            in 1 .. limit -> agregarComida(list[options - 1], receta, options - 1)
+            limit + 1 -> break@escapar
+            else -> println("Debe seleccionar una de las opciones")
         }
     }
 }
 
-fun verLeche() {
+fun setAgua(receta: Receta, agua: Agua, cant: Int): Boolean {
 
-    val leches: Array<Leche> = arrayOf(
-        Leche(100, "Leche de Avena"),
-        Leche(200, "Leche Deslactosada")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in leches.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > agua.getCant()) {
+        println("No hay $cant unidades/ml de ${agua.showNombre()}")
+    } else {
+        procede = true
+        agua.setCant(agua.getCant() - cant)
+        var nuevaAgua = Agua(cant, agua.showNombre())
+        receta.getComidas().add(nuevaAgua)
+        println(nuevaAgua.toString())
     }
-    mensaje += "${leches.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Leche ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
-
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
-
-        when (options) {
-            1 -> leches[0].toString()
-            2-> leches[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
-        }
-    }
+    return procede
 }
 
-fun verCarne() {
+fun setLeche(receta: Receta, leche: Leche, cant: Int): Boolean {
 
-    val carnes: Array<Carne> = arrayOf(
-        Carne(100, "Carne de res"),
-        Carne(200, "Carne de pollo")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in carnes.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > leche.getCant()) {
+        println("No hay $cant unidades/ml de ${leche.showNombre()}")
+    } else {
+        procede = true
+        leche.setCant(leche.getCant() - cant)
+        var nuevaLeche = Leche(cant, leche.showNombre())
+        receta.getComidas().add(nuevaLeche)
+        println(nuevaLeche.toString())
     }
-    mensaje += "${carnes.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Carne ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
-
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
-
-        when (options) {
-            1 -> carnes[0].toString()
-            2-> carnes[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
-        }
-    }
+    return procede
 }
 
-fun verVerdura() {
+fun setCarne(receta: Receta, carne: Carne, cant: Int): Boolean {
 
-    val verduras: Array<Verduras> = arrayOf(
-        Verduras(100, "Lechuga"),
-        Verduras(200, "Espinaca")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in verduras.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > carne.getCant()) {
+        println("No hay $cant unidades/ml de ${carne.showNombre()}")
+    } else {
+        procede = true
+        carne.setCant(carne.getCant() - cant)
+        var nuevaCarne = Carne(cant, carne.showNombre())
+        receta.getComidas().add(nuevaCarne)
+        println(nuevaCarne.toString())
     }
-    mensaje += "${verduras.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Verduras ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
-
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
-
-        when (options) {
-            1 -> verduras[0].toString()
-            2-> verduras[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
-        }
-    }
+    return procede
 }
 
-fun verFruta() {
+fun setVerdura(receta: Receta, verduras: Verduras, cant: Int): Boolean {
 
-    val frutas: Array<Frutas> = arrayOf(
-        Frutas(100, "Platano"),
-        Frutas(200, "Mango")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in frutas.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > verduras.getCant()) {
+        println("No hay $cant unidades/ml de ${verduras.showNombre()}")
+    } else {
+        procede = true
+        verduras.setCant(verduras.getCant() - cant)
+        var nuevaVerduras = Verduras(cant, verduras.showNombre())
+        receta.getComidas().add(nuevaVerduras)
+        println(nuevaVerduras.toString())
     }
-    mensaje += "${frutas.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Frutas ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
-
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
-
-        when (options) {
-            1 -> frutas[0].toString()
-            2-> frutas[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
-        }
-    }
+    return procede
 }
 
-fun verCereal() {
+fun setFruta(receta: Receta, frutas: Frutas, cant: Int): Boolean {
 
-    val cereales: Array<Cereal> = arrayOf(
-        Cereal(100, "Avena"),
-        Cereal(200, "Trigo")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in cereales.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > frutas.getCant()) {
+        println("No hay $cant unidades/ml de ${frutas.showNombre()}")
+    } else {
+        procede = true
+        frutas.setCant(frutas.getCant() - cant)
+        var nuevaFrutas = Frutas(cant, frutas.showNombre())
+        receta.getComidas().add(nuevaFrutas)
+        println(nuevaFrutas.toString())
     }
-    mensaje += "${cereales.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Cereal ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
-
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
-
-        when (options) {
-            1 -> cereales[0].toString()
-            2-> cereales[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
-        }
-    }
+    return procede
 }
 
-fun verHuevos() {
+fun setCereal(receta: Receta, cereal: Cereal, cant: Int): Boolean {
 
-    val huevos: Array<Huevos> = arrayOf(
-        Huevos(100, "Huevo de codorniz"),
-        Huevos(200, "Huevo frito")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in huevos.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > cereal.getCant()) {
+        println("No hay $cant unidades/ml de ${cereal.showNombre()}")
+    } else {
+        procede = true
+        cereal.setCant(cereal.getCant() - cant)
+        var nuevaCereal = Cereal(cant, cereal.showNombre())
+        receta.getComidas().add(nuevaCereal)
+        println(nuevaCereal.toString())
     }
-    mensaje += "${huevos.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Huevos ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
-
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
-
-        when (options) {
-            1 -> huevos[0].toString()
-            2-> huevos[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
-        }
-    }
+    return procede
 }
 
-fun verAceite() {
+fun setHuevos(receta: Receta, huevos: Huevos, cant: Int): Boolean {
 
-    val aceites: Array<Aceites> = arrayOf(
-        Aceites(100, "Aceite de Oliva"),
-        Aceites(200, "Aceite para freir")
-    )
+    var procede: Boolean = false
 
-    var mensaje: String = ""
-    for ((index : Int, n ) in aceites.withIndex() ) {
-        mensaje += "${index + 1}. ${n.toString()}\n"
+    if (cant > huevos.getCant()) {
+        println("No hay $cant unidades/ml de ${huevos.showNombre()}")
+    } else {
+        procede = true
+        huevos.setCant(huevos.getCant() - cant)
+        var nuevaHuevos = Huevos(cant, huevos.showNombre())
+        receta.getComidas().add(nuevaHuevos)
+        println(nuevaHuevos.toString())
     }
-    mensaje += "${aceites.size + 1}. Regresar"
 
-    escapar@while (true){
-        val mensaje_inicial = """
-            
-:: Aceites ::
-    
-Selecciona entre los ingredientes disponibles
-$mensaje
-            
-        """.trimIndent()
+    return procede
+}
 
-        println(mensaje_inicial)
-        var options: Int = readLine()?.toInt() ?: 0
+fun setAceite(receta: Receta, aceites: Aceites, cant: Int): Boolean {
 
-        when (options) {
-            1 -> aceites[0].toString()
-            2-> aceites[1].toString()
-            3 -> break@escapar
-            else -> println("Debe seleccionar una las opciones")
+    var procede: Boolean = false
+
+    if (cant > aceites.getCant()) {
+        println("No hay $cant unidades/ml de ${aceites.showNombre()}")
+    } else {
+        procede = true
+        aceites.setCant(aceites.getCant() - cant)
+        var nuevaAceites = Aceites(cant, aceites.showNombre())
+        receta.getComidas().add(nuevaAceites)
+        println(nuevaAceites.toString())
+    }
+
+    return procede
+}
+
+fun agregarComida(comida: Any, receta: Receta, n: Int) {
+
+    escapar@while (true) {
+        println("Ingrese la cantidad a utilizar")
+        var cantidad: Int = readLine()?.toInt() ?: 0
+        val clase: String = comida.javaClass.simpleName
+
+        when (clase) {
+            "Agua" -> if(setAgua(receta, aguas[n], cantidad)) break@escapar
+            "Leche" -> if(setLeche(receta, leches[n], cantidad)) break@escapar
+            "Carne"-> if(setCarne(receta, carnes[n], cantidad)) break@escapar
+            "Verduras"-> if(setVerdura(receta, verduras[n], cantidad)) break@escapar
+            "Frutas"-> if(setFruta(receta, frutas[n], cantidad)) break@escapar
+            "Cereal"-> if(setCereal(receta, cereales[n], cantidad)) break@escapar
+            "Huevos"-> if(setHuevos(receta, huevos[n], cantidad)) break@escapar
+            "Aceites"-> if(setAceite(receta, aceites[n], cantidad)) break@escapar
+            else -> println("Comida desconocida")
         }
+
     }
+
+}
+
+fun verAgua(receta: Receta) {
+
+    realizarAccion(aguas, receta)
+}
+
+fun verLeche(receta: Receta) {
+
+    realizarAccion(leches, receta)
+}
+
+fun verCarne(receta: Receta) {
+
+    realizarAccion(carnes, receta)
+}
+
+fun verVerdura(receta: Receta) {
+
+    realizarAccion(verduras, receta)
+}
+
+fun verFruta(receta: Receta) {
+
+    realizarAccion(frutas, receta)
+}
+
+fun verCereal(receta: Receta) {
+
+    realizarAccion(cereales, receta)
+}
+
+fun verHuevos(receta: Receta) {
+
+    realizarAccion(huevos, receta)
+}
+
+fun verAceite(receta: Receta) {
+
+    realizarAccion(aceites, receta)
 }

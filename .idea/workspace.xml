@@ -2,18 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="119fcfce-040c-4445-9309-a86f72ec17c2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/model/Aceites.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Agua.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Carne.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Cereal.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Comida.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Frutas.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Huevos.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/ICrudActions.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Leche.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Verduras.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Receta.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Reto1/Reto1Kt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Reto1/Reto1Kt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Reto1.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Reto1.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Aceites.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Aceites.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Agua.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Agua.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Carne.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Carne.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Cereal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cereal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Frutas.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Frutas.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Huevos.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Huevos.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/ICrudActions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ICrudActions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Leche.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Leche.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Verduras.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Verduras.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +48,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../HolaMundo" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -98,22 +99,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="990" y="357" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1583602473334" />
-    <state width="1149" height="200" key="GridCell.Tab.0.bottom" timestamp="1584653248555">
+    <state x="1048" y="189" key="FileChooserDialogImpl" timestamp="1584664413217">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1149" height="200" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1584653248555" />
-    <state width="1149" height="200" key="GridCell.Tab.0.center" timestamp="1584653248555">
+    <state x="1048" y="189" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1584664413217" />
+    <state width="1149" height="200" key="GridCell.Tab.0.bottom" timestamp="1584691862266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1149" height="200" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1584653248555" />
-    <state width="1149" height="200" key="GridCell.Tab.0.left" timestamp="1584653248555">
+    <state width="1149" height="200" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1584691862266" />
+    <state width="1149" height="200" key="GridCell.Tab.0.center" timestamp="1584691862266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1149" height="200" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1584653248555" />
-    <state width="1149" height="200" key="GridCell.Tab.0.right" timestamp="1584653248555">
+    <state width="1149" height="200" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1584691862266" />
+    <state width="1149" height="200" key="GridCell.Tab.0.left" timestamp="1584691862266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1149" height="200" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1584653248555" />
+    <state width="1149" height="200" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1584691862266" />
+    <state width="1149" height="200" key="GridCell.Tab.0.right" timestamp="1584691862266">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1149" height="200" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1584691862266" />
     <state x="323" y="0" key="SettingsEditor" timestamp="1584645922229">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

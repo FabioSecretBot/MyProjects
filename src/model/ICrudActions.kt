@@ -4,7 +4,7 @@ interface ICrudActions {
 
     fun showTipo()
 
-    fun showNombre()
+    fun showNombre(): String
 
     fun setCant(cant: Int)
 

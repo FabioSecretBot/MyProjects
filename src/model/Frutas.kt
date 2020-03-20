@@ -11,8 +11,8 @@ class Frutas (cantidad: Int, var nombre: String) :
         println(this.tipo)
     }
 
-    override fun showNombre() {
-        println(this.nombre)
+    override fun showNombre(): String {
+        return this.nombre
     }
 
     override fun setCant(cant: Int) {
